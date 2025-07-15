@@ -10,7 +10,7 @@ import ai.koog.embeddings.base.Vector
  *
  * @property client The Ollama model client to use for embedding text.
  */
-public class LLMEmbedder(private val client: LLMEmbeddingProvider, private val model: LLModel) : Embedder {
+public class LLMEmbedder(private val client: LLMEmbeddingProvider, private val model: LLModel, private val dimensions: Int? = null) : Embedder {
     /**
      * Embeds the given text using the Ollama model.
      *
@@ -18,7 +18,7 @@ public class LLMEmbedder(private val client: LLMEmbeddingProvider, private val m
      * @return A vector representation of the text.
      */
     override suspend fun embed(text: String): Vector {
-        return Vector(client.embed(text, model))
+        return Vector(client.embed(text, model, dimensions))
     }
 
     /**

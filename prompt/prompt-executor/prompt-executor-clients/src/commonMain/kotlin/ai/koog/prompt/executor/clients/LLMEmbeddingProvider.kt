@@ -15,5 +15,5 @@ public interface LLMEmbeddingProvider {
      * @return A list of floating-point values representing the embedding.
      * @throws IllegalArgumentException if the model does not have the Embed capability.
      */
-    public suspend fun embed(text: String, model: LLModel): List<Double>
+    public suspend fun embed(text: String, model: LLModel, dimensions: Int? = null): List<Double>
 }

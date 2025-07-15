@@ -239,11 +239,15 @@ public class OllamaClient(
      * @return A vector representation of the text.
      * @throws IllegalArgumentException if the model does not have the Embed capability.
      */
-    override suspend fun embed(text: String, model: LLModel): List<Double> {
+    override suspend fun embed(text: String, model: LLModel, dimensions: Int?): List<Double> {
         require(model.provider == LLMProvider.Ollama) { "Model not supported by Ollama" }
 
         if (!model.capabilities.contains(LLMCapability.Embed)) {
             throw IllegalArgumentException("Model ${model.id} does not have the Embed capability")
+        }
+
+        if (dimensions != null) {
+            logger.warn { "Ollama doesn't support dimension configuration yet. The `dimensions` input will be ignored." }
         }
 
         val response = client.post(DEFAULT_EMBEDDINGS_PATH) {

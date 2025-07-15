@@ -145,7 +145,8 @@ internal data class OpenAIUsage(
 @Serializable
 internal data class OpenAIEmbeddingRequest(
     val model: String,
-    val input: String
+    val input: String,
+    val dimensions: Int? = null,
 )
 
 @Serializable

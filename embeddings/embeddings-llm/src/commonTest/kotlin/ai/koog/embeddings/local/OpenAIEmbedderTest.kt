@@ -65,7 +65,7 @@ class OpenAIEmbedderTest {
             embeddings[text] = vector
         }
 
-        override suspend fun embed(text: String, model: LLModel): List<Double> {
+        override suspend fun embed(text: String, model: LLModel, dimensions: Int?): List<Double> {
             return embeddings[text]?.values ?: throw IllegalArgumentException("No mock embedding for text: $text")
         }
     }

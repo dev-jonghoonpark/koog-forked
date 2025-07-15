@@ -161,7 +161,7 @@ public open class OpenAILLMClient(
      * @return A list of floating-point values representing the embedding.
      * @throws IllegalArgumentException if the model does not have the Embed capability.
      */
-    override suspend fun embed(text: String, model: LLModel): List<Double> {
+    override suspend fun embed(text: String, model: LLModel, dimensions: Int?): List<Double> {
         require(model.capabilities.contains(LLMCapability.Embed)) {
             "Model ${model.id} does not have the Embed capability"
         }
@@ -169,7 +169,8 @@ public open class OpenAILLMClient(
 
         val request = OpenAIEmbeddingRequest(
             model = model.id,
-            input = text
+            input = text,
+            dimensions = dimensions
         )
 
         return withContext(Dispatchers.SuitableForIO) {

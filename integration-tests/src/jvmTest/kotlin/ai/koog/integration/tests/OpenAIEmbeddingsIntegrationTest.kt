@@ -5,6 +5,7 @@ import ai.koog.prompt.executor.clients.openai.OpenAILLMClient
 import ai.koog.prompt.executor.clients.openai.OpenAIModels
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -51,6 +52,28 @@ class OpenAIEmbeddingsIntegrationTest {
         embedding.forEach { value ->
             assertTrue(value.isFinite(), "Embedding values should be finite")
         }
+
+        println("Embedding: $embedding")
+    }
+
+    @Test
+    fun integration_testEmbedWithDimensions() = runTest {
+        val client = OpenAILLMClient(apiKey)
+
+        val text = "This is a test text for embedding with dimensions configuration."
+        val embedding = client.embed(text, OpenAIModels.Embeddings.TextEmbedding3Large, 768)
+
+        // Verify the embedding is not null and has the expected structure
+        assertNotNull(embedding)
+        assertTrue(embedding.isNotEmpty(), "Embedding should not be empty")
+
+        // Check that the embedding values are within a reasonable range
+        embedding.forEach { value ->
+            assertTrue(value.isFinite(), "Embedding values should be finite")
+        }
+
+        // Verify embedding dimension configuration (3072 → 768).
+        assertEquals(embedding.size, 768)
 
         println("Embedding: $embedding")
     }

@@ -66,7 +66,7 @@ class MockOllamaEmbedderClient : LLMEmbeddingProvider {
         embeddings[text] = vector
     }
 
-    override suspend fun embed(text: String, model: LLModel): List<Double> {
+    override suspend fun embed(text: String, model: LLModel, dimensions: Int?): List<Double> {
         require(model.provider == LLMProvider.Ollama) { "Model not supported by Ollama" }
         return embeddings[text]?.values ?: throw IllegalArgumentException("No mock embedding for text: $text")
     }
